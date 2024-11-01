@@ -2,23 +2,36 @@
  * @NOTE: Prepend a `~` to css file paths that are in your node_modules
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
-body {
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+
+ body {
   position: relative;
   color: white;
   height: 100vh;
   background: linear-gradient(
-    200.96deg,
-    #fedc2a -29.09%,
-    #dd5789 51.77%,
-    #7a2c9e 129.35%
+    -90deg,
+    #1967f8 -29.09%,
+    #599df7 51.77%,
+    #1efff4 129.35%
   );
-  font-family: sans-serif;
+
+  /* Hide scrollbars for all elements */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+  /* font-family: sans-serif;
   overflow-y: hidden;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
 }
-
+/* 
 button {
   background-color: white;
   padding: 10px 20px;
@@ -31,9 +44,9 @@ button {
   transition: all ease-in 0.1s;
   cursor: pointer;
   opacity: 0.9;
-}
+} */
 
-button:hover {
+/* button:hover {
   transform: scale(1.05);
   opacity: 1;
 }
@@ -59,4 +72,4 @@ a:hover {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
-}
+} */
