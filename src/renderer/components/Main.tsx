@@ -58,6 +58,7 @@ const Main = () => {
 
   return (
     <main className="h-screen overflow-auto">
+      <div className="bg-red-500 p-20 border-2">this is a text div</div>
       <Header
         handleFileChange={handleFileChange}
         handleSave={handleSave}
