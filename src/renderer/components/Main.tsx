@@ -73,7 +73,7 @@ const Main = () => {
           handleIsPickedFormat={handleIsPickedFormat}
           handleIsPickedCel={handleIsPickedCel}
         />
-        <Picture imageSrc={imageSrc} />
+        <Picture imageSrc={imageSrc} cel={isPickedCel}/>
       </section>
     </main>
   );

@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 interface PictureProps {
   imageSrc: string | null;
+  cel?: string | null;
 }
-const Picture: React.FC<PictureProps> = ({ imageSrc }) => {
+const Picture: React.FC<PictureProps> = ({ imageSrc, cel }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
@@ -54,6 +55,7 @@ const Picture: React.FC<PictureProps> = ({ imageSrc }) => {
       onMouseLeave={handleMouseUp}
     >
       {imageSrc ? (
+       <>
         <img
           src={imageSrc}
           alt="Uploaded"
@@ -68,6 +70,8 @@ const Picture: React.FC<PictureProps> = ({ imageSrc }) => {
           }}
           onMouseDown={handleMouseDown}
         />
+        <h2 className="bg-red-500 absolute z-[100] text-white">{cel}</h2>
+      </>
       ) : (
         <div className="absolute inset-0 grid place-items-center text-center font-black text-4xl">
           Загрузите картинку
