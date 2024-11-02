@@ -1,8 +1,7 @@
 import colors from 'tailwindcss/colors';
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx,html}'],
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
+  content: ["./src/**/*.{js,jsx,ts,tsx,html,ejs}"],
+  darkMode: 'media', // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
