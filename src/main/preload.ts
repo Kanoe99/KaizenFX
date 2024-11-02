@@ -23,10 +23,10 @@ const electronHandler = {
     },
   },
   store: {
-    get(key) {
+    get(key:string) {
       return ipcRenderer.sendSync('electron-store-get', key);
     },
-    set(property, val) {
+    set(property:string, val:string) {
       ipcRenderer.send('electron-store-set', property, val);
     },
     // Other method you want to add like has(), reset(), etc.

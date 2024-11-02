@@ -37,6 +37,8 @@ ipcMain.on('ipc-example', async (event, arg) => {
   console.log(msgTemplate(arg));
   event.reply('ipc-example', msgTemplate('pong'));
 });
+
+
 ipcMain.on('electron-store-get', async (event, val) => {
   event.returnValue = store.get(val);
 });
