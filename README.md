@@ -3,7 +3,7 @@
 Download files:
 
 ```bash
-git clone https://github.com/Kanoe99/card-card.git
+git clone https://github.com/Kanoe99/KaizenFX.git
 ```
 
 Install Dependencies:
@@ -39,7 +39,7 @@ npm run package
 Загрузка файлов:
 
 ```bash
-git clone https://github.com/Kanoe99/card-card.git
+git clone https://github.com/Kanoe99/KaizenFX.git
 ```
 
 Установка зависимостей:

@@ -54,7 +54,7 @@ const Main = () => {
   return (
     <main className="h-screen overflow-auto">
       <button className='bg-red-500 px-4 py-2 rounded-md' onClick={()=>{window.electron.store.set('foo', 'bar'); console.log(window.electron.store.get('foo'))}}>click me</button>
-      <div>{foo}</div>
+      <div className='py-4 bg-green-400 shadow-inner-md'>{foo}</div>
       <Header
         handleFileChange={handleFileChange}
         handleSave={handleSave}
