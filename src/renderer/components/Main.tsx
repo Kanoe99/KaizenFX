@@ -56,8 +56,12 @@ const Main = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  const foo = window.electron.store.get('foo');
+
   return (
     <main className="h-screen overflow-auto">
+      <button className='bg-red-500 px-4 py-2 rounded-md' onClick={()=>{const test = window.electron.store.set('foo', 'bar'); console.log(window.electron.store.get('foo'))}}>click me</button>
+      <div>{foo}</div>
       <Header
         handleFileChange={handleFileChange}
         handleSave={handleSave}
