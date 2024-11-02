@@ -28,6 +28,18 @@ const configuration: webpack.Configuration = {
           },
         },
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i, // This rule applies to image files
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]', // Retain original file name and extension
+              outputPath: 'images/', // Directory where the images will be copied
+            },
+          },
+        ],
+      },
     ],
   },
 

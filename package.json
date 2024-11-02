@@ -111,7 +111,9 @@
     "electron-updater": "^6.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.16.0"
+    "react-router-dom": "^6.16.0",
+    "konva": "^9.3.16",
+    "react-konva": "^18.2.10"
   },
   "devDependencies": {
     "@electron/rebuild": "^3.3.0",

@@ -2,22 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Menu } from './ui/Menu';
 import { Header } from './ui/Header';
 import { Picture } from './ui/Picture';
+import { handleIsPickedItem } from "../utils/handlers";
+import { Canvas } from './Canvas/Canvas';
 
 const Main = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [isPickedFormat, setIsPickedFormat] = useState<string | null>(null);
-  const [isPickedCel, setIsPickedCel] = useState<string | null>(null);
+  const [isPickedCard, setIsPickedCard] = useState<string | null>(null);
 
   const formats = ['A3', 'A4', 'A5'];
   const cards = ['Новый Год', '8 Марта', '23 Февраля'];
-
-  function handleIsPickedFormat(item: string) {
-    setIsPickedFormat(item === isPickedFormat ? null : item);
-  }
-
-  function handleIsPickedCel(item: string) {
-    setIsPickedCel(item === isPickedCel ? null : item);
-  }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -43,11 +37,10 @@ const Main = () => {
     window.print();
   };
 
-  // Hook to listen for Ctrl + P and trigger handlePrint
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey && event.key === 'p') {
-        event.preventDefault(); // Prevent browser's default print dialog
+        event.preventDefault();
         handlePrint();
       }
     };
@@ -60,7 +53,7 @@ const Main = () => {
 
   return (
     <main className="h-screen overflow-auto">
-      <button className='bg-red-500 px-4 py-2 rounded-md' onClick={()=>{const test = window.electron.store.set('foo', 'bar'); console.log(window.electron.store.get('foo'))}}>click me</button>
+      <button className='bg-red-500 px-4 py-2 rounded-md' onClick={()=>{window.electron.store.set('foo', 'bar'); console.log(window.electron.store.get('foo'))}}>click me</button>
       <div>{foo}</div>
       <Header
         handleFileChange={handleFileChange}
@@ -72,12 +65,22 @@ const Main = () => {
         <Menu
           formats={formats}
           cards={cards}
-          isPickedCel={isPickedCel}
+          isPickedCard={isPickedCard}
           isPickedFormat={isPickedFormat}
-          handleIsPickedFormat={handleIsPickedFormat}
-          handleIsPickedCel={handleIsPickedCel}
+          handleIsPickedFormat={(item) =>
+            setIsPickedFormat(
+              handleIsPickedItem({ isPickedItem: isPickedFormat, item: item }),
+            )
+          }
+          handleIsPickedCard={(item) =>
+            setIsPickedCard(
+              handleIsPickedItem({ isPickedItem: isPickedCard, item: item }),
+            )
+          }
+          
         />
-        <Picture imageSrc={imageSrc} cel={isPickedCel}/>
+        <Canvas />
+        <Picture imageSrc={imageSrc} card={isPickedCard}/>
       </section>
     </main>
   );
