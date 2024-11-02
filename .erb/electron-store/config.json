@@ -1,3 +1,14 @@
 {
-	"foo": "bar"
-}
+    "formats": [
+      { "key": "A4", "value": "A4" },
+      { "key": "A5", "value": "A5" },
+      { "key": "A6", "value": "A6" }
+    ],
+    "cards": [
+      { "key": "card1", "value": "Happy Birthday!" },
+      { "key": "card2", "value": "Congratulations!" },
+      { "key": "card3", "value": "Thank You!" }
+    ],
+    "foo": "bar"
+  }
+  

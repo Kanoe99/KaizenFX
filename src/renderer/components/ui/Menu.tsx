@@ -1,12 +1,6 @@
 import { Tile } from './Tile';
-interface MenuProps {
-  formats: string[];
-  cards: string[];
-  handleIsPickedFormat: (item: string) => void;
-  handleIsPickedCard: (item: string) => void;
-  isPickedCard: string | null;
-  isPickedFormat: string | null;
-}
+import {MenuProps} from '../../interfaces/ui';
+
 const Menu: React.FC<MenuProps> = ({
   formats,
   cards,
@@ -21,10 +15,10 @@ const Menu: React.FC<MenuProps> = ({
       <div className="flex justify-start gap-10">
         {formats.map((format) => (
           <Tile
-            key={format}
-            type={format}
-            isPicked={format === isPickedFormat}
-            handleClick={() => handleIsPickedFormat(format)}
+            key={format.key}
+            type={format.key}
+            isPicked={format.key === isPickedFormat}
+            handleClick={() => handleIsPickedFormat(format.key)}
           />
         ))}
       </div>
@@ -33,10 +27,10 @@ const Menu: React.FC<MenuProps> = ({
         {cards.map((card) => (
           <Tile
             styles="text-sm"
-            key={card}
-            type={card}
-            isPicked={card === isPickedCard}
-            handleClick={() => handleIsPickedCard(card)}
+            key={card.key}
+            type={card.key}
+            isPicked={card.key === isPickedCard}
+            handleClick={() => handleIsPickedCard(card.key)}
           />
         ))}
       </div>

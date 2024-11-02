@@ -1,16 +1,39 @@
-interface TileProps {
-    type: string;
-    isPicked: boolean;
-    handleClick: () => void;
-    styles?: string;
+import type { Stage } from 'konva/lib/Stage';
+
+interface DownloadProps {
+  uri: string | undefined;
+  fileName: string | undefined;
+  stageRef: React.RefObject<Stage> | undefined;
 }
 
-interface PickedItemProps{
-    isPickedItem: string | null;
-    item: string;
+interface PickedProps {
+  isPickedItem: string | null;
+  item: string;
 }
 
-export{
-    TileProps,
-    PickedItemProps
+interface CanvasProps {
+  cardText?: string | null;
+  imageSrc: string | null | undefined;
+  stageRef: React.RefObject<Stage> | undefined;
 }
+
+interface ImageProps {
+  width: number;
+  height: number;
+}
+
+interface ElectronProps {
+  key: string;
+  value: string;
+}
+
+interface MenuProps {
+  formats: ElectronProps[];
+  cards: ElectronProps[];
+  handleIsPickedFormat: (item: string) => void;
+  handleIsPickedCard: (item: string) => void;
+  isPickedCard: string | null;
+  isPickedFormat: string | null;
+}
+
+export { DownloadProps, PickedProps, CanvasProps, ImageProps, ElectronProps, MenuProps };

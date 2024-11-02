@@ -1,64 +1,65 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Menu } from './ui/Menu';
 import { Header } from './ui/Header';
-import { Picture } from './ui/Picture';
-import { handleIsPickedItem } from "../utils/handlers";
-import { Canvas } from './Canvas/Canvas';
+import {
+  handleIsPickedItem,
+  handleFileChange,
+  handleSave,
+  handleDelete,
+  handlePrint,
+} from '../utils/handlers';
+import { Canvas } from '../components/Canvas/Canvas';
+import { ElectronProps } from '../interfaces/ui';
 
 const Main = () => {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [isPickedFormat, setIsPickedFormat] = useState<string | null>(null);
-  const [isPickedCard, setIsPickedCard] = useState<string | null>(null);
+  const [fontSize, setFontSize] = useState<string>('30px');
+  const [fontFamily, setFontFamily] = useState<string>('Arial');
 
-  const formats = ['A3', 'A4', 'A5'];
-  const cards = ['Новый Год', '8 Марта', '23 Февраля'];
+  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
+  const [fileName, setFileName] = useState<string | undefined>(undefined);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => setImageSrc(e.target?.result as string);
-      reader.readAsDataURL(file);
-    }
-    event.target.value = '';
-  };
 
-  const handleSave = () => {
-    if (imageSrc) {
-      console.log('Saving image:', imageSrc);
-    }
-  };
 
-  const handleDelete = () => {
-    setImageSrc(null);
-  };
+  //TODO: fix this
 
-  const handlePrint = () => {
-    window.print();
-  };
+  const formats = window.electron.store.get('formats') || [];
+  const cards = window.electron.store.get('cards') || [];
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === 'p') {
-        event.preventDefault();
-        handlePrint();
-      }
-    };
+  // const [formats, setFormats] = useState<ElectronProps[] >(
+  //   window.electron.store.get('formats'),
+  // );
+  // const [cards, setCards] = useState<ElectronProps[]>(
+  //   window.electron.store.get('cards'),
+  // );
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  console.log(cards)
 
-  const foo = window.electron.store.get('foo');
+  const [isPickedFormat, setIsPickedFormat] = useState<string | null>(
+    formats.length > 0 ? formats[0].key : null
+  );
+  const [isPickedCard, setIsPickedCard] = useState<string | null>(
+    cards.length > 0 ? cards[0].key : null
+  );
+
+
+  const stageRef = useRef(null);
+
+  const cardText =
+    isPickedCard &&
+    cards.filter(
+      (card: { key: string; value: string }) => card.key === isPickedCard,
+    )[0].value;
 
   return (
     <main className="h-screen overflow-auto">
-      <button className='bg-red-500 px-4 py-2 rounded-md' onClick={()=>{window.electron.store.set('foo', 'bar'); console.log(window.electron.store.get('foo'))}}>click me</button>
-      <div className='py-4 bg-green-400 shadow-inner-md'>{foo}</div>
-      <Header
-        handleFileChange={handleFileChange}
-        handleSave={handleSave}
-        handleDelete={handleDelete}
+       <Header
+        handleFileChange={(event) =>
+          handleFileChange(event, setImageSrc, setFileName)
+        }
+        handleSave={() =>
+          handleSave({ uri: imageSrc, fileName: fileName, stageRef: stageRef })
+        }
+        handleDelete={() => handleDelete(setImageSrc)}
         handlePrint={handlePrint}
       />
       <section className="flex px-14 justify-between py-12 h-fit gap-20">
@@ -77,10 +78,8 @@ const Main = () => {
               handleIsPickedItem({ isPickedItem: isPickedCard, item: item }),
             )
           }
-          
         />
-        <Canvas />
-        <Picture imageSrc={imageSrc} card={isPickedCard}/>
+        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} />
       </section>
     </main>
   );
