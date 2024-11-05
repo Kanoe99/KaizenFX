@@ -19,8 +19,24 @@ import { resolveHtmlPath } from './util';
 const isDev = process.env.NODE_ENV !== 'production';
 
 const store = new Store({
-  cwd: isDev && path.join(__dirname, '../electron-store')
+  cwd: isDev ? path.join(__dirname, '../electron-store') : undefined
 });
+
+// Define the data to be saved in the store
+const data = {
+  formats: [
+    { key: "A4", value: "A4" },
+    { key: "A5", value: "A5" },
+    { key: "A6", value: "A6" }
+  ],
+  cards: [
+    { key: "card1", value: "Happy Birthday!" },
+    { key: "card2", value: "Congratulations!" },
+    { key: "card3", value: "Thank You!" }
+  ],
+};
+
+store.set('settings', data);
 
 class AppUpdater {
   constructor() {

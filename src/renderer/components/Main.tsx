@@ -22,17 +22,17 @@ const Main = () => {
 
   //TODO: fix this
 
-  const formats = window.electron.store.get('formats') || [];
-  const cards = window.electron.store.get('cards') || [];
+  // const formats = window.electron.store.get('settings.formats') || [];
+  // const cards = window.electron.store.get('settings.cards') || [];
 
-  // const [formats, setFormats] = useState<ElectronProps[] >(
-  //   window.electron.store.get('formats'),
-  // );
-  // const [cards, setCards] = useState<ElectronProps[]>(
-  //   window.electron.store.get('cards'),
-  // );
+  const [formats, setFormats] = useState<ElectronProps[] >(
+    window.electron.store.get('settings.formats'),
+  );
+  const [cards, setCards] = useState<ElectronProps[]>(
+    window.electron.store.get('settings.cards'),
+  );
 
-  console.log(cards)
+  console.log(formats);
 
   const [isPickedFormat, setIsPickedFormat] = useState<string | null>(
     formats.length > 0 ? formats[0].key : null
