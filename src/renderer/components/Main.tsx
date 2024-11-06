@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Menu } from './ui/Menu';
 import { Header } from './ui/Header';
 import {
@@ -7,6 +7,7 @@ import {
   handleSave,
   handleDelete,
   handlePrint,
+  handleResetPos,
 } from '../utils/handlers';
 import { Canvas } from '../components/Canvas/Canvas';
 import { ElectronProps } from '../interfaces/ui';
@@ -14,33 +15,25 @@ import { ElectronProps } from '../interfaces/ui';
 const Main = () => {
   const [fontSize, setFontSize] = useState<string>('30px');
   const [fontFamily, setFontFamily] = useState<string>('Arial');
-
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [fileName, setFileName] = useState<string | undefined>(undefined);
-
-
-
-  //TODO: fix this
-
-  // const formats = window.electron.store.get('settings.formats') || [];
-  // const cards = window.electron.store.get('settings.cards') || [];
-
   const [formats, setFormats] = useState<ElectronProps[] >(
     window.electron.store.get('settings.formats'),
   );
   const [cards, setCards] = useState<ElectronProps[]>(
     window.electron.store.get('settings.cards'),
   );
-
-  console.log(formats);
-
   const [isPickedFormat, setIsPickedFormat] = useState<string | null>(
     formats.length > 0 ? formats[0].key : null
   );
   const [isPickedCard, setIsPickedCard] = useState<string | null>(
     cards.length > 0 ? cards[0].key : null
   );
+  const [position, setPosition] = useState<{xPos: number, yPos: number}>({xPos: 0, yPos: 0});
 
+  useEffect(()=>{
+    setPosition({xPos: 0, yPos: 0});
+  },[imageSrc]);
 
   const stageRef = useRef(null);
 
@@ -59,6 +52,7 @@ const Main = () => {
         handleSave={() =>
           handleSave({ uri: imageSrc, fileName: fileName, stageRef: stageRef })
         }
+        handleResetPos={()=>{handleResetPos(setPosition)}}
         handleDelete={() => handleDelete(setImageSrc)}
         handlePrint={handlePrint}
       />
@@ -79,7 +73,7 @@ const Main = () => {
             )
           }
         />
-        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} />
+        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} setPosition={setPosition}/>
       </section>
     </main>
   );

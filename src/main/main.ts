@@ -30,9 +30,9 @@ const data = {
     { key: "A6", value: "A6" }
   ],
   cards: [
-    { key: "card1", value: "Happy Birthday!" },
-    { key: "card2", value: "Congratulations!" },
-    { key: "card3", value: "Thank You!" }
+    { key: "День Рождения", value: "С Днём Рождения!" },
+    { key: "9 мая", value: "С Днём Победы!" },
+    { key: "Новый Год", value: "Счастливого нового год!" }
   ],
 };
 

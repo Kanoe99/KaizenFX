@@ -16,16 +16,16 @@
 		],
 		"cards": [
 			{
-				"key": "card1",
-				"value": "Happy Birthday!"
+				"key": "День Рождения",
+				"value": "С Днём Рождения!"
 			},
 			{
-				"key": "card2",
-				"value": "Congratulations!"
+				"key": "9 мая",
+				"value": "С Днём Победы!"
 			},
 			{
-				"key": "card3",
-				"value": "Thank You!"
+				"key": "Новый Год",
+				"value": "Счастливого нового год!"
 			}
 		]
 	}

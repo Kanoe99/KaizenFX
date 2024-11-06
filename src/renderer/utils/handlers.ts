@@ -45,10 +45,17 @@ const handlePrint = () => {
   window.print();
 };
 
+const handleResetPos = (
+  setPosition: React.Dispatch<React.SetStateAction<{xPos: number, yPos: number}>>
+) => {
+  setPosition({xPos:0, yPos:0})
+}
+
 export {
   handleDelete,
   handleFileChange,
   handleIsPickedItem,
   handlePrint,
   handleSave,
+  handleResetPos,
 };

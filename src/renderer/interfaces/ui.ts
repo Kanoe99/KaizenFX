@@ -15,6 +15,9 @@ interface CanvasProps {
   cardText?: string | null;
   imageSrc: string | null | undefined;
   stageRef: React.RefObject<Stage> | undefined;
+  xPos: number;
+  yPos: number;
+  setPosition:({xPos, yPos} : {xPos: number, yPos: number}) => void;
 }
 
 interface ImageProps {

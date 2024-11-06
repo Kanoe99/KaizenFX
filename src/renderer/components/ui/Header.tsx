@@ -4,12 +4,14 @@ interface HeaderProps {
   handleSave: () => void;
   handleDelete: () => void;
   handlePrint: () => void;
+  handleResetPos: () => void;
 }
 const Header: React.FC<HeaderProps> = ({
   handleFileChange,
   handleSave,
   handleDelete,
   handlePrint,
+  handleResetPos,
 }) => {
   return (
     <header className="flex justify-between w-full px-14 py-5 text-lg font-extrabold">
@@ -29,6 +31,7 @@ const Header: React.FC<HeaderProps> = ({
         </Button>
         <Button onClick={handleSave}>Сохранить</Button>
         <Button onClick={handleDelete}>Удалить</Button>
+        <Button onClick={handleResetPos}>Сбросить позицию</Button>
       </div>
     </header>
   );
