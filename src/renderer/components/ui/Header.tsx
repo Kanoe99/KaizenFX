@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="flex justify-between w-full px-14 py-5 text-lg font-extrabold">
-      <Button onClick={handlePrint}>Печать</Button>
+      {/* <Button onClick={handlePrint}>Печать</Button> */}
       <div className="flex gap-10">
         <Button>
           <label htmlFor="picker" className="cursor-pointer">
