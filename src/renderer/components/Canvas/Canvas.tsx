@@ -24,8 +24,7 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
         setImage(img);
       };
     }
-
-  }, [imageSrc, xPos, yPos, initialScale]);
+ }, [imageSrc]);
 
   useEffect(()=>{
      setScale(initialScale)
@@ -44,8 +43,6 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
       ref={stageRef}
     >
       <Layer>
-        <Text text={cardText !== null ? cardText : undefined} fill={'white'} draggable={true}/>
-
         <Image
           x={xPos}
           y={yPos}
@@ -70,7 +67,7 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
           onDragEnd={(e) => {
             const container = e.target.getStage()?.container();
             container && (container.style.cursor = 'grab');
-
+            
             const newX = e.target.x();
             const newY = e.target.y();
             setPosition({ xPos: newX, yPos: newY });
@@ -80,15 +77,16 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
             container && (container.style.cursor = 'default');
           }}
           onWheel={(e) => {
-            e.evt.preventDefault(); // Prevent default scrolling behavior
-
+            e.evt.preventDefault();
+            
             if (e.evt.ctrlKey) {
-              // Check if Ctrl key is pressed
               const scaleAmount = e.evt.deltaY > 0 ? 0.95 : 1.05;
               setScale((prevScale) => prevScale && Math.max(0.1, prevScale * scaleAmount));
             }
           }}
         />
+        
+        <Text text={cardText !== null ? cardText : undefined} fill={'white'} draggable={true}/>
       </Layer>
     </Stage>
   );
