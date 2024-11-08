@@ -1,9 +1,10 @@
 import type { Stage } from 'konva/lib/Stage';
+import React from 'react';
 
 interface DownloadProps {
-  uri: string | undefined;
-  fileName: string | undefined;
-  stageRef: React.RefObject<Stage> | undefined;
+  uri?: string;
+  fileName?: string;
+  stageRef?: React.RefObject<Stage>;
 }
 
 interface PickedProps {
@@ -13,11 +14,15 @@ interface PickedProps {
 
 interface CanvasProps {
   cardText?: string | null;
-  imageSrc: string | null | undefined;
-  stageRef: React.RefObject<Stage> | undefined;
+  imageSrc?: string | null;
+  stageRef?: React.RefObject<Stage>;
   xPos: number;
   yPos: number;
-  setPosition:({xPos, yPos} : {xPos: number, yPos: number}) => void;
+  scale: number | undefined;
+  aspectRatio: ImageProps;
+  image?: HTMLImageElement;
+  setPosition: (position: { xPos: number; yPos: number }) => void;
+  setScale: (scale: any) => void;
 }
 
 interface ImageProps {

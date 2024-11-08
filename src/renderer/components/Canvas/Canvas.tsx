@@ -4,35 +4,11 @@ import { useEffect, useState } from 'react';
 
 import { CanvasProps, ImageProps } from '../../interfaces/ui';
 
-const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPos, setPosition }) => {
-  const [image, setImage] = useState<HTMLImageElement | undefined>(undefined);
-  const [aspectRatio, setAspectRatio] = useState<ImageProps>({
-    width: 550,
-    height: 550 * 1.414,
-  });
-  const initialScale = image && aspectRatio.width / image.naturalWidth;
-
-  const [scale, setScale] = useState<number>();
+const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPos, setPosition, scale, image, aspectRatio, setScale }) => {
 
   const imageId = crypto.randomUUID();
 
-  useEffect(() => {
-    const img = new window.Image();
-    if (imageSrc) {
-      img.src = imageSrc;
-      img.onload = () => {
-        setImage(img);
-      };
-    }
- }, [imageSrc]);
-
-  useEffect(()=>{
-     setScale(initialScale)
-  }, [initialScale])
-
   const stageKey = `${imageSrc}-${xPos}-${yPos}`;
-
-  console.log('xPos: ' + xPos + ' yPos: ' + yPos);
 
   return (
     <Stage
@@ -79,9 +55,9 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
           onWheel={(e) => {
             e.evt.preventDefault();
             
-            if (e.evt.ctrlKey) {
+            if (e.evt.ctrlKey ) {
               const scaleAmount = e.evt.deltaY > 0 ? 0.95 : 1.05;
-              setScale((prevScale) => prevScale && Math.max(0.1, prevScale * scaleAmount));
+              setScale((prevScale: number) => prevScale && Math.max(0.1, prevScale * scaleAmount));             
             }
           }}
         />

@@ -10,7 +10,7 @@ import {
   handleResetPos,
 } from '../utils/handlers';
 import { Canvas } from '../components/Canvas/Canvas';
-import { ElectronProps } from '../interfaces/ui';
+import { ElectronProps, ImageProps } from '../interfaces/ui';
 
 const Main = () => {
   const [fontSize, setFontSize] = useState<string>('30px');
@@ -31,11 +31,40 @@ const Main = () => {
   );
   const [position, setPosition] = useState<{xPos: number, yPos: number}>({xPos: 0, yPos: 0});
 
+  const [aspectRatio, setAspectRatio] = useState<ImageProps>({
+    width: 550,
+    height: 550 * 1.414,
+  });
+
+  const [image, setImage] = useState<HTMLImageElement | undefined>(undefined);
+
+  
+  const [scale, setScale] = useState<number | undefined>(undefined);
+  
   useEffect(()=>{
     setPosition({xPos: 0, yPos: 0});
+    
+    const img = new window.Image();
+    if (imageSrc) {
+      img.src = imageSrc;
+      img.onload = () => {
+        setImage(img);
+      };
+    }
   },[imageSrc]);
-
+  
+  const initialScale = image ? aspectRatio.width / image.naturalWidth : undefined;
+        
+  useEffect(()=>{
+    setScale(initialScale)
+  }, [initialScale])
+        
   const stageRef = useRef(null);
+
+
+  const handleResetScale = () => {
+  setScale(initialScale);
+  }
 
   const cardText =
     isPickedCard &&
@@ -53,6 +82,7 @@ const Main = () => {
           handleSave({ uri: imageSrc, fileName: fileName, stageRef: stageRef })
         }
         handleResetPos={()=>{handleResetPos(setPosition)}}
+        handleResetScale={handleResetScale}
         handleDelete={() => handleDelete(setImageSrc)}
         handlePrint={handlePrint}
       />
@@ -73,7 +103,7 @@ const Main = () => {
             )
           }
         />
-        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} setPosition={setPosition}/>
+        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} setPosition={setPosition} scale={scale} image={image} aspectRatio={aspectRatio} setScale={setScale}/>
       </section>
     </main>
   );

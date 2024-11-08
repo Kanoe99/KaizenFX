@@ -5,6 +5,7 @@ interface HeaderProps {
   handleDelete: () => void;
   handlePrint: () => void;
   handleResetPos: () => void;
+  handleResetScale: () => void;
 }
 const Header: React.FC<HeaderProps> = ({
   handleFileChange,
@@ -12,6 +13,7 @@ const Header: React.FC<HeaderProps> = ({
   handleDelete,
   handlePrint,
   handleResetPos,
+  handleResetScale,
 }) => {
   return (
     <header className="flex justify-between w-full px-14 py-5 text-lg font-extrabold">
@@ -32,6 +34,7 @@ const Header: React.FC<HeaderProps> = ({
         <Button onClick={handleSave}>Сохранить</Button>
         <Button onClick={handleDelete}>Удалить</Button>
         <Button onClick={handleResetPos}>Сбросить позицию</Button>
+        <Button onClick={handleResetScale}>Вернуть исходный размер</Button>
       </div>
     </header>
   );
