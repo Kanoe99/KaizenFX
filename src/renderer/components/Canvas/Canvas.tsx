@@ -1,12 +1,34 @@
-import React from 'react';
-import { Stage, Layer, Text, Image } from 'react-konva';
+import React, { useRef } from 'react';
+import { Stage, Layer, Text, Image, Transformer } from 'react-konva';
 import { useEffect, useState } from 'react';
 
 import { CanvasProps, ImageProps } from '../../interfaces/ui';
 
 const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPos, setPosition, scale, image, aspectRatio, setScale }) => {
+  const [isSelected, setIsSelected] = useState<boolean>(false);
 
   const imageId = crypto.randomUUID();
+  const textId = crypto.randomUUID();
+
+
+  const textRef = useRef<any>(null);
+  const trRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (isSelected) {
+      // we need to attach transformer manually
+      trRef.current.nodes([textRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [isSelected]);
+
+  //TODO
+  //possibly change to image.<something>
+
+
+  const handleSelectedText = () => {
+    setIsSelected(true);
+  }
 
   const stageKey = `${imageSrc}-${xPos}-${yPos}`;
 
@@ -61,8 +83,19 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
             }
           }}
         />
-        
-        <Text text={cardText !== null ? cardText : undefined} fill={'white'} draggable={true}/>
+
+        <Text ref={textRef} id={textId} text={cardText !== null ? cardText : undefined} fill={'white'} draggable={true} width={aspectRatio.width} onClick={()=>{handleSelectedText()}}/>
+        <Transformer
+          ref={trRef}
+          flipEnabled={false}
+          boundBoxFunc={(oldBox, newBox) => {
+            // limit resize
+            if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
       </Layer>
     </Stage>
   );

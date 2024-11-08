@@ -44,13 +44,19 @@ const Main = () => {
   useEffect(()=>{
     setPosition({xPos: 0, yPos: 0});
     
-    const img = new window.Image();
-    if (imageSrc) {
-      img.src = imageSrc;
-      img.onload = () => {
-        setImage(img);
-      };
+    
+    if(imageSrc === undefined){
+      setImage(undefined);
+      return;
     }
+    
+    const img = new window.Image();
+    
+    img.src = imageSrc;
+    img.onload = () => {
+        setImage(img);
+    };
+    
   },[imageSrc]);
   
   const initialScale = image ? aspectRatio.width / image.naturalWidth : undefined;

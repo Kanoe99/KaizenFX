@@ -33,8 +33,8 @@ const Header: React.FC<HeaderProps> = ({
         </Button>
         <Button onClick={handleSave}>Сохранить</Button>
         <Button onClick={handleDelete}>Удалить</Button>
-        <Button onClick={handleResetPos}>Сбросить позицию</Button>
-        <Button onClick={handleResetScale}>Вернуть исходный размер</Button>
+        <Button onClick={handleResetPos}>Сбросить позицию картинки</Button>
+        <Button onClick={handleResetScale}>Вернуть исходный размер картинки</Button>
       </div>
     </header>
   );
