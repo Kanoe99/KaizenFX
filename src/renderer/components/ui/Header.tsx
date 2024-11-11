@@ -1,12 +1,5 @@
 import { Button } from './Button';
-interface HeaderProps {
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSave: () => void;
-  handleDelete: () => void;
-  handlePrint: () => void;
-  handleResetPos: () => void;
-  handleResetScale: () => void;
-}
+import { HeaderProps } from '../../interfaces/ui';
 const Header: React.FC<HeaderProps> = ({
   handleFileChange,
   handleSave,

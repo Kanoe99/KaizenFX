@@ -20,6 +20,7 @@ const Main = () => {
   const [formats, setFormats] = useState<ElectronProps[] >(
     window.electron.store.get('settings.formats'),
   );
+  //TODO: possibly remove redundant state
   const [cards, setCards] = useState<ElectronProps[]>(
     window.electron.store.get('settings.cards'),
   );
@@ -40,6 +41,12 @@ const Main = () => {
 
   
   const [scale, setScale] = useState<number | undefined>(undefined);
+
+  // const [cardText, setCardText] = useState<string>(cards.filter(
+  //   (card: { key: string; value: string }) => card.key === isPickedCard,
+  // )[0].value);
+
+  // console.log(cardText);
   
   useEffect(()=>{
     setPosition({xPos: 0, yPos: 0});
@@ -104,12 +111,15 @@ const Main = () => {
             )
           }
           handleIsPickedCard={(item) =>
+          {
+            // setCardText('test');
             setIsPickedCard(
               handleIsPickedItem({ isPickedItem: isPickedCard, item: item }),
-            )
+            );
+          }
           }
         />
-        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} setPosition={setPosition} scale={scale} image={image} aspectRatio={aspectRatio} setScale={setScale}/>
+        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} setPosition={setPosition} scale={scale} image={image} aspectRatio={aspectRatio} setScale={setScale}/>      
       </section>
     </main>
   );

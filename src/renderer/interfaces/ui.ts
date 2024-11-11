@@ -1,5 +1,5 @@
 import type { Stage } from 'konva/lib/Stage';
-import React from 'react';
+import React, {ButtonHTMLAttributes} from 'react';
 
 interface DownloadProps {
   uri?: string;
@@ -43,5 +43,40 @@ interface MenuProps {
   isPickedCard: string | null;
   isPickedFormat: string | null;
 }
+interface RectangleProps {
+  shapeProps: any;
+  isSelected: boolean;
+  onSelect: () => void;
+  onChange: (...props: any) => void;
+  text?: string | null;
+}
 
-export { DownloadProps, PickedProps, CanvasProps, ImageProps, ElectronProps, MenuProps };
+interface TextFieldProps{
+  checkDeselect: (e:any) => void;
+  selectShape: (id:string) => void;
+  selectedId: string | null;
+  text?: string | null;
+}
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+}
+
+interface FrameProps {
+  type: string;
+  isPicked: boolean;
+  handleClick: () => void;
+}
+interface HeaderProps {
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSave: () => void;
+  handleDelete: () => void;
+  handlePrint: () => void;
+  handleResetPos: () => void;
+  handleResetScale: () => void;
+}
+interface PictureProps {
+  imageSrc: string | null;
+  card?: string | null;
+}
+
+export { DownloadProps, PickedProps, CanvasProps, ImageProps, ElectronProps, MenuProps, RectangleProps, TextFieldProps, ButtonProps, FrameProps, HeaderProps, PictureProps };

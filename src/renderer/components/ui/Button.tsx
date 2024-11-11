@@ -1,9 +1,7 @@
 // Button.tsx
-import React, { ButtonHTMLAttributes } from 'react';
+import { ButtonProps } from "../../interfaces/ui";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-}
+
 
 const Button: React.FC<ButtonProps> = ({ children, onClick, ...props }) => {
   const classes =

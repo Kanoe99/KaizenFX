@@ -1,8 +1,5 @@
-interface FrameProps {
-    type: string;
-    isPicked: boolean;
-    handleClick: () => void;
-  }
+import { FrameProps } from "../../interfaces/ui";
+
   const Frame: React.FC<FrameProps> = ({ type, isPicked, handleClick }) => {
     return (
       <div

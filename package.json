@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "./types"]
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ]
   },
   "name": "electron-react-boilerplate",
   "description": "A foundation for scalable desktop apps",
@@ -109,11 +112,12 @@
     "electron-log": "^4.4.8",
     "electron-store": "^10.0.0",
     "electron-updater": "^6.1.4",
+    "konva": "^9.3.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.16.0",
-    "konva": "^9.3.16",
-    "react-konva": "^18.2.10"
+    "react-konva": "^18.2.10",
+    "react-konva-utils": "^1.0.6",
+    "react-router-dom": "^6.16.0"
   },
   "devDependencies": {
     "@electron/rebuild": "^3.3.0",

@@ -3,6 +3,7 @@ import { Stage, Layer, Text, Image, Transformer } from 'react-konva';
 import { useEffect, useState } from 'react';
 
 import { CanvasProps, ImageProps } from '../../interfaces/ui';
+import {TextField} from './TextField';
 
 const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPos, setPosition, scale, image, aspectRatio, setScale }) => {
   const [isSelected, setIsSelected] = useState<boolean>(false);
@@ -13,6 +14,15 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
 
   const textRef = useRef<any>(null);
   const trRef = useRef<any>(null);
+  
+  const [selectedId, selectShape] = useState<string | null>(null);
+
+  const checkDeselect = (e: any) => {
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      selectShape(null);
+    }
+  };
 
   useEffect(() => {
     if (isSelected) {
@@ -30,7 +40,7 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
     setIsSelected(true);
   }
 
-  const stageKey = `${imageSrc}-${xPos}-${yPos}`;
+  const stageKey = `${imageSrc}-${xPos}-${yPos}-${cardText}`;
 
   return (
     <Stage
@@ -83,19 +93,7 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
             }
           }}
         />
-
-        <Text ref={textRef} id={textId} text={cardText !== null ? cardText : undefined} fill={'white'} draggable={true} width={aspectRatio.width} onClick={()=>{handleSelectedText()}}/>
-        <Transformer
-          ref={trRef}
-          flipEnabled={false}
-          boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
-            if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
-              return oldBox;
-            }
-            return newBox;
-          }}
-        />
+      <TextField text={cardText} checkDeselect={checkDeselect} selectShape={selectShape} selectedId={selectedId}/>
       </Layer>
     </Stage>
   );

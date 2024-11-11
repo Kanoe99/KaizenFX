@@ -1,8 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-interface PictureProps {
-  imageSrc: string | null;
-  card?: string | null;
-}
+import { PictureProps } from '../../interfaces/ui';
 const Picture: React.FC<PictureProps> = ({ imageSrc, card }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
