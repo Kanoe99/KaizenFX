@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useReducer } from 'react';
 import { Menu } from './ui/Menu';
 import { Header } from './ui/Header';
 import {
@@ -11,19 +11,21 @@ import {
 } from '../utils/handlers';
 import { Canvas } from '../components/Canvas/Canvas';
 import { ElectronProps, ImageProps } from '../interfaces/ui';
+import { initialState, reducer } from '../utils/reducer';
 
 const Main = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+
   const [fontSize, setFontSize] = useState<string>('30px');
   const [fontFamily, setFontFamily] = useState<string>('Arial');
   const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
   const [fileName, setFileName] = useState<string | undefined>(undefined);
-  const [formats, setFormats] = useState<ElectronProps[] >(
-    window.electron.store.get('settings.formats'),
-  );
-  //TODO: possibly remove redundant state
-  const [cards, setCards] = useState<ElectronProps[]>(
-    window.electron.store.get('settings.cards'),
-  );
+ 
+  const formats = window.electron.store.get('settings.formats')
+  const cards = window.electron.store.get('settings.cards');
+
+
   const [isPickedFormat, setIsPickedFormat] = useState<string | null>(
     formats.length > 0 ? formats[0].key : null
   );
@@ -37,23 +39,17 @@ const Main = () => {
     height: 550 * 1.414,
   });
 
-  const [image, setImage] = useState<HTMLImageElement | undefined>(undefined);
+  // const [image, setImage] = useState<HTMLImageElement | undefined>(undefined);
 
   
   const [scale, setScale] = useState<number | undefined>(undefined);
-
-  // const [cardText, setCardText] = useState<string>(cards.filter(
-  //   (card: { key: string; value: string }) => card.key === isPickedCard,
-  // )[0].value);
-
-  // console.log(cardText);
   
   useEffect(()=>{
     setPosition({xPos: 0, yPos: 0});
     
     
     if(imageSrc === undefined){
-      setImage(undefined);
+      dispatch({type: 'changed_image', image: undefined})
       return;
     }
     
@@ -61,12 +57,12 @@ const Main = () => {
     
     img.src = imageSrc;
     img.onload = () => {
-        setImage(img);
+        dispatch({type: 'changed_image', image: img})
     };
     
   },[imageSrc]);
   
-  const initialScale = image ? aspectRatio.width / image.naturalWidth : undefined;
+  const initialScale = state.image ? aspectRatio.width / state.image.naturalWidth : undefined;
         
   useEffect(()=>{
     setScale(initialScale)
@@ -76,7 +72,7 @@ const Main = () => {
 
 
   const handleResetScale = () => {
-  setScale(initialScale);
+   setScale(initialScale)
   }
 
   const cardText =
@@ -87,6 +83,8 @@ const Main = () => {
 
   return (
     <main className="h-screen overflow-auto">
+      <button onClick={()=>dispatch({type: 'add'})}>click to test use reducer</button>
+      <div className='w-20 h-10 bg-green-600 rounded-md py-2 px-1 grid place-items-center'>{state?.age}</div>
        <Header
         handleFileChange={(event) =>
           handleFileChange(event, setImageSrc, setFileName)
@@ -119,7 +117,7 @@ const Main = () => {
           }
           }
         />
-        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} setPosition={setPosition} scale={scale} image={image} aspectRatio={aspectRatio} setScale={setScale}/>      
+        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} setPosition={setPosition} scale={scale} image={state.image} aspectRatio={aspectRatio} setScale={setScale}/>      
       </section>
     </main>
   );

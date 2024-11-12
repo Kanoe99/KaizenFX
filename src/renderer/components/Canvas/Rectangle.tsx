@@ -101,7 +101,8 @@ import { RectangleProps } from '../../interfaces/ui';
           }}
         />
         {/*TODO: set visible prop dynamically, depending on whether it's render time */}
-        <Text ref={textRef} text={text ?? ''} width={textareaPosition.width} height={textareaPosition.height} fill={"white"} x={textareaPosition.x} y={textareaPosition.y} fontSize={16} lineHeight={1.5} visible={true}/>
+        {/*TODO: make Text's text and textarea's text same position */}
+        <Text ref={textRef} text={text ?? ''} width={textareaPosition.width} height={textareaPosition.height} fill={"green"} x={textareaPosition.x} y={textareaPosition.y} fontSize={16} lineHeight={1.5} visible={true}/>
         {isSelected && (
           <Transformer
             ref={trRef}
