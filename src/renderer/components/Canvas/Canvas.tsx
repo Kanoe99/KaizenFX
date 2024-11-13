@@ -5,13 +5,16 @@ import { useEffect } from 'react';
 import { CanvasProps, DimensionsProps } from '../../interfaces/ui';
 import {TextField} from './TextField';
 
-const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPos, scale, image, dimensions, dispatch, initialScale, isSelected, selectedId }) => {
-  const imageId = crypto.randomUUID();
+const Canvas: React.FC<CanvasProps> = (props) => {
+  const { cardText, imageSrc, stageRef, xPos, yPos, scale, image, dimensions, dispatch, initialScale, isSelected, selectedId } = props;
 
+  const imageId = crypto.randomUUID();
 
   const textRef = useRef<any>(null);
   const trRef = useRef<any>(null);
   
+
+  //TODO: useContext to avoid prop drilling
 
   const checkDeselect = (e: any) => {
     const clickedOnEmpty = e.target === e.target.getStage();
@@ -29,10 +32,6 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
   }, [isSelected]);
 
   //TODO: make Text's text on change of textarea to be changed as well
-
-  const handleSelectedText = () => {
-    dispatch({type: 'set_isSelected', isSelected: true})
-  }
 
   const stageKey = `${imageSrc}-${xPos}-${yPos}-${cardText}`;
 
