@@ -1,12 +1,17 @@
 import { DownloadProps, PickedProps } from '../interfaces/ui';
+import {Action} from '../utils/reducer';
 
 const handleIsPickedItem = ({ isPickedItem, item }: PickedProps) => {
   return item === isPickedItem ? null : item;
 };
+
+const handleResetScale = (dispatch: React.Dispatch<Action>, initialScale: number | undefined) => {
+  dispatch({type: 'set_scale', scale: initialScale})
+}
+
 const handleFileChange = (
   event: React.ChangeEvent<HTMLInputElement>,
-  setImageSrc: React.Dispatch<React.SetStateAction<string | undefined>>,
-  setFileName: React.Dispatch<React.SetStateAction<string | undefined>>,
+  dispatch: React.Dispatch<Action>
 ) => {
   const file = event.target.files?.[0];
   if (file) {
@@ -17,7 +22,8 @@ const handleFileChange = (
         '_edited' +
         file.name.slice(file.name.indexOf('.'));
 
-      setImageSrc(e.target?.result as string), setFileName(fileName_edited);
+      dispatch({type: 'set_fileName', fileName: fileName_edited})
+      dispatch({type: 'set_imageSrc', imageSrc: e.target?.result as string})
     };
     reader.readAsDataURL(file);
   }
@@ -36,9 +42,9 @@ const handleSave = ({ fileName, stageRef }: DownloadProps) => {
 };
 
 const handleDelete = (
-  setImageSrc: React.Dispatch<React.SetStateAction<string | undefined>>,
+  dispatch: React.Dispatch<Action>
 ) => {
-  setImageSrc(undefined);
+  dispatch({type: 'set_imageSrc', imageSrc: undefined})
 };
 
 const handlePrint = () => {
@@ -46,9 +52,9 @@ const handlePrint = () => {
 };
 
 const handleResetPos = (
-  setPosition: React.Dispatch<React.SetStateAction<{xPos: number, yPos: number}>>
+  dispatch: React.Dispatch<Action>
 ) => {
-  setPosition({xPos:0, yPos:0})
+  dispatch({type: 'set_position', position: {xPos: 0, yPos: 0}})
 }
 
 export {
@@ -58,4 +64,5 @@ export {
   handlePrint,
   handleSave,
   handleResetPos,
+  handleResetScale
 };

@@ -1,5 +1,6 @@
 import type { Stage } from 'konva/lib/Stage';
 import React, {ButtonHTMLAttributes} from 'react';
+import { Action } from '../utils/reducer';
 
 interface DownloadProps {
   uri?: string;
@@ -19,13 +20,13 @@ interface CanvasProps {
   xPos: number;
   yPos: number;
   scale: number | undefined;
-  aspectRatio: ImageProps;
+  dimensions: DimensionsProps;
   image?: HTMLImageElement;
-  setPosition: (position: { xPos: number; yPos: number }) => void;
-  setScale: (scale: any) => void;
+  dispatch: React.Dispatch<Action>;
+  initialScale: number | undefined;
 }
 
-interface ImageProps {
+interface DimensionsProps {
   width: number;
   height: number;
 }
@@ -79,4 +80,9 @@ interface PictureProps {
   card?: string | null;
 }
 
-export { DownloadProps, PickedProps, CanvasProps, ImageProps, ElectronProps, MenuProps, RectangleProps, TextFieldProps, ButtonProps, FrameProps, HeaderProps, PictureProps };
+interface PositionProps{
+  xPos: number,
+  yPos: number
+}
+
+export { DownloadProps, PickedProps, CanvasProps, DimensionsProps, ElectronProps, MenuProps, RectangleProps, TextFieldProps, ButtonProps, FrameProps, HeaderProps, PictureProps, PositionProps };

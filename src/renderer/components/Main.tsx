@@ -1,51 +1,38 @@
-import { useState, useRef, useEffect, useReducer } from 'react';
+import { useRef, useEffect, useReducer } from 'react';
 import { Menu } from './ui/Menu';
 import { Header } from './ui/Header';
 import {
   handleIsPickedItem,
   handleFileChange,
-  handleSave,
+  handleSave, 
   handleDelete,
   handlePrint,
   handleResetPos,
+  handleResetScale,
 } from '../utils/handlers';
 import { Canvas } from '../components/Canvas/Canvas';
-import { ElectronProps, ImageProps } from '../interfaces/ui';
 import { initialState, reducer } from '../utils/reducer';
+import { ElectronStore } from '../utils/electron-store';
 
 const Main = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const {cards, formats} = ElectronStore;
+  const {dimensions, image, isPickedCard, isPickedFormat, imageSrc, fileName, scale, position} = state;
 
-  const [fontSize, setFontSize] = useState<string>('30px');
-  const [fontFamily, setFontFamily] = useState<string>('Arial');
-  const [imageSrc, setImageSrc] = useState<string | undefined>(undefined);
-  const [fileName, setFileName] = useState<string | undefined>(undefined);
- 
-  const formats = window.electron.store.get('settings.formats')
-  const cards = window.electron.store.get('settings.cards');
+  const initialScale = image ? dimensions.width / image.naturalWidth : undefined;
 
+  const stageRef = useRef(null);
 
-  const [isPickedFormat, setIsPickedFormat] = useState<string | null>(
-    formats.length > 0 ? formats[0].key : null
-  );
-  const [isPickedCard, setIsPickedCard] = useState<string | null>(
-    cards.length > 0 ? cards[0].key : null
-  );
-  const [position, setPosition] = useState<{xPos: number, yPos: number}>({xPos: 0, yPos: 0});
+  const cardText =
+    isPickedCard &&
+    cards.filter(
+      (card: { key: string; value: string }) => card.key === isPickedCard,
+    )[0].value;
 
-  const [aspectRatio, setAspectRatio] = useState<ImageProps>({
-    width: 550,
-    height: 550 * 1.414,
-  });
-
-  // const [image, setImage] = useState<HTMLImageElement | undefined>(undefined);
-
-  
-  const [scale, setScale] = useState<number | undefined>(undefined);
   
   useEffect(()=>{
-    setPosition({xPos: 0, yPos: 0});
+    handleResetPos(dispatch);
     
     
     if(imageSrc === undefined){
@@ -62,39 +49,19 @@ const Main = () => {
     
   },[imageSrc]);
   
-  const initialScale = state.image ? aspectRatio.width / state.image.naturalWidth : undefined;
-        
-  useEffect(()=>{
-    setScale(initialScale)
-  }, [initialScale])
-        
-  const stageRef = useRef(null);
-
-
-  const handleResetScale = () => {
-   setScale(initialScale)
-  }
-
-  const cardText =
-    isPickedCard &&
-    cards.filter(
-      (card: { key: string; value: string }) => card.key === isPickedCard,
-    )[0].value;
 
   return (
     <main className="h-screen overflow-auto">
-      <button onClick={()=>dispatch({type: 'add'})}>click to test use reducer</button>
-      <div className='w-20 h-10 bg-green-600 rounded-md py-2 px-1 grid place-items-center'>{state?.age}</div>
        <Header
         handleFileChange={(event) =>
-          handleFileChange(event, setImageSrc, setFileName)
+          handleFileChange(event,dispatch)
         }
         handleSave={() =>
           handleSave({ uri: imageSrc, fileName: fileName, stageRef: stageRef })
         }
-        handleResetPos={()=>{handleResetPos(setPosition)}}
-        handleResetScale={handleResetScale}
-        handleDelete={() => handleDelete(setImageSrc)}
+        handleResetPos={()=>{handleResetPos(dispatch)}}
+        handleResetScale={() => handleResetScale(dispatch, initialScale)}
+        handleDelete={() => handleDelete(dispatch)}
         handlePrint={handlePrint}
       />
       <section className="flex px-14 justify-between py-12 h-fit gap-20">
@@ -104,20 +71,16 @@ const Main = () => {
           isPickedCard={isPickedCard}
           isPickedFormat={isPickedFormat}
           handleIsPickedFormat={(item) =>
-            setIsPickedFormat(
-              handleIsPickedItem({ isPickedItem: isPickedFormat, item: item }),
-            )
+
+            dispatch({type: 'set_isPickedFormat', isPickedFormat: handleIsPickedItem({ isPickedItem: isPickedFormat, item: item })})
           }
           handleIsPickedCard={(item) =>
           {
-            // setCardText('test');
-            setIsPickedCard(
-              handleIsPickedItem({ isPickedItem: isPickedCard, item: item }),
-            );
+            dispatch({type: 'set_isPickedCard', isPickedCard: handleIsPickedItem({ isPickedItem: isPickedFormat, item: item })})
           }
           }
         />
-        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} setPosition={setPosition} scale={scale} image={state.image} aspectRatio={aspectRatio} setScale={setScale}/>      
+        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} scale={scale} image={image} dimensions={dimensions} dispatch={dispatch} initialScale={initialScale}/>      
       </section>
     </main>
   );
