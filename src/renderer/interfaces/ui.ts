@@ -24,6 +24,8 @@ interface CanvasProps {
   image?: HTMLImageElement;
   dispatch: React.Dispatch<Action>;
   initialScale: number | undefined;
+  isSelected: boolean;
+  selectedId: string | null;
 }
 
 interface DimensionsProps {
@@ -54,7 +56,7 @@ interface RectangleProps {
 
 interface TextFieldProps{
   checkDeselect: (e:any) => void;
-  selectShape: (id:string) => void;
+  dispatch: React.Dispatch<Action>;
   selectedId: string | null;
   text?: string | null;
 }
@@ -78,6 +80,9 @@ interface HeaderProps {
 interface PictureProps {
   imageSrc: string | null;
   card?: string | null;
+  dispatch: React.Dispatch<Action>;
+  position: PositionProps
+  isDragging: boolean;
 }
 
 interface PositionProps{

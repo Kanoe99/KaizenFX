@@ -18,7 +18,7 @@ const Main = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const {cards, formats} = ElectronStore;
-  const {dimensions, image, isPickedCard, isPickedFormat, imageSrc, fileName, scale, position} = state;
+  const {dimensions, image, isPickedCard, isPickedFormat, imageSrc, fileName, scale, position, isSelected, selectedId, isDragging} = state;
 
   const initialScale = image ? dimensions.width / image.naturalWidth : undefined;
 
@@ -80,7 +80,7 @@ const Main = () => {
           }
           }
         />
-        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} scale={scale} image={image} dimensions={dimensions} dispatch={dispatch} initialScale={initialScale}/>      
+        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} scale={scale} image={image} dimensions={dimensions} dispatch={dispatch} initialScale={initialScale} isSelected={isSelected} selectedId={selectedId}/>      
       </section>
     </main>
   );

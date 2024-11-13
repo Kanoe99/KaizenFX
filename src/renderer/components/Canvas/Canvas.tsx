@@ -1,25 +1,22 @@
 import React, { useRef } from 'react';
-import { Stage, Layer, Text, Image, Transformer } from 'react-konva';
-import { useEffect, useState } from 'react';
+import { Stage, Layer, Image, } from 'react-konva';
+import { useEffect } from 'react';
 
 import { CanvasProps, DimensionsProps } from '../../interfaces/ui';
 import {TextField} from './TextField';
 
-const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPos, scale, image, dimensions, dispatch, initialScale }) => {
-  const [isSelected, setIsSelected] = useState<boolean>(false);
-
+const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPos, scale, image, dimensions, dispatch, initialScale, isSelected, selectedId }) => {
   const imageId = crypto.randomUUID();
 
 
   const textRef = useRef<any>(null);
   const trRef = useRef<any>(null);
   
-  const [selectedId, selectShape] = useState<string | null>(null);
 
   const checkDeselect = (e: any) => {
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
-      selectShape(null);
+      dispatch({type: 'set_selectedId', selectedId: null})
     }
   };
 
@@ -31,13 +28,10 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
     }
   }, [isSelected]);
 
-  //TODO: possibly change to image.<something>
-
-
   //TODO: make Text's text on change of textarea to be changed as well
 
   const handleSelectedText = () => {
-    setIsSelected(true);
+    dispatch({type: 'set_isSelected', isSelected: true})
   }
 
   const stageKey = `${imageSrc}-${xPos}-${yPos}-${cardText}`;
@@ -94,7 +88,7 @@ const Canvas: React.FC<CanvasProps> = ({ cardText, imageSrc, stageRef, xPos, yPo
             }
           }}
         />
-      <TextField text={cardText} checkDeselect={checkDeselect} selectShape={selectShape} selectedId={selectedId}/>
+      <TextField text={cardText} checkDeselect={checkDeselect} dispatch={dispatch} selectedId={selectedId}/>
       </Layer>
     </Stage>
   );

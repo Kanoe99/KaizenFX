@@ -1,5 +1,5 @@
 import Konva from 'konva';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { Text, Stage, Layer, Rect, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 
@@ -18,8 +18,6 @@ import { RectangleProps } from '../../interfaces/ui';
       height: shapeProps.height - 20, // Adjust height with padding (10px on each side)
     };
   
-    const [rotation, setRotation] = useState(shapeProps.rotation);
-  
     useEffect(() => {
       if (isSelected && trRef.current && shapeRef.current && textRef.current) {
         trRef.current.nodes([shapeRef.current]);
@@ -27,9 +25,6 @@ import { RectangleProps } from '../../interfaces/ui';
       }
     }, [isSelected]);
   
-    useEffect(() => {
-      setRotation(shapeProps.rotation);
-    }, [shapeProps.rotation]);
   
     return (
       <>
@@ -90,7 +85,6 @@ import { RectangleProps } from '../../interfaces/ui';
               y: node.y(),
               width: Math.max(5, node.width() * scaleX),
               height: Math.max(5, node.height() * scaleY),
-              rotation: node.rotation(), // Update rotation
             });
   
             // Update text width to match rectangle width without scaling the font size

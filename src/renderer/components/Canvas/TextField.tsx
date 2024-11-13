@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { TextFieldProps } from '../../interfaces/ui';
 
-const TextField = ({checkDeselect, selectShape, selectedId, text}: TextFieldProps) => {
+const TextField = ({checkDeselect, dispatch, selectedId, text}: TextFieldProps) => {
   const [rectangles, setRectangles] = useState([{
     id:crypto.randomUUID(),
     x:50,
@@ -25,7 +25,7 @@ const TextField = ({checkDeselect, selectShape, selectedId, text}: TextFieldProp
           }}
           key={id}
           isSelected={id === selectedId}
-          onSelect={() => selectShape(id)}
+          onSelect={() => dispatch({type: 'set_selectedId', selectedId: id})}
           />
   );
 };

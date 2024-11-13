@@ -4,7 +4,7 @@ const Header: React.FC<HeaderProps> = ({
   handleFileChange,
   handleSave,
   handleDelete,
-  handlePrint,
+  // handlePrint,
   handleResetPos,
   handleResetScale,
 }) => {

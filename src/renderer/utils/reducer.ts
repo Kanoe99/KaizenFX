@@ -19,6 +19,9 @@ interface State{
     dimensions: DimensionsProps;
     scale: number | undefined;
     position: PositionProps;
+    isSelected: boolean;
+    selectedId: string | null;
+    isDragging: boolean;
 }
 
 export type Action =
@@ -60,6 +63,18 @@ export type Action =
 | {
     type: 'set_position';
     position: PositionProps
+}
+| {
+    type: 'set_isSelected';
+    isSelected: boolean;
+}
+| {
+    type: 'set_selectedId';
+    selectedId: string | null;
+}
+| {
+    type: 'set_isDragging';
+    isDragging: boolean;
 };
 
 
@@ -82,7 +97,10 @@ const initialState: State = {
     position: {
         xPos: 0,
         yPos: 0
-    }
+    },
+    isSelected: false,
+    selectedId: null,
+    isDragging: false,
 };
 
 function reducer(state: State, action: Action){
@@ -145,6 +163,21 @@ function reducer(state: State, action: Action){
                     xPos: action.position.xPos,
                     yPos: action.position.yPos,
                 }
+            }
+        case 'set_isSelected':
+            return{
+                ...state,
+                isSelected: action.isSelected
+            }
+        case 'set_selectedId':
+            return{
+                ...state,
+                selectedId: action.selectedId
+            }
+        case 'set_isDragging':
+            return{
+                ...state,
+                isDragging: action.isDragging
             }
         default:
             return state;
