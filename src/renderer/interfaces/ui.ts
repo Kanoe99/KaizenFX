@@ -1,11 +1,14 @@
 import type { Stage } from 'konva/lib/Stage';
 import React, {ButtonHTMLAttributes} from 'react';
 import { Action } from '../utils/reducer';
+import { Text } from 'konva/lib/shapes/Text';
 
 interface DownloadProps {
   uri?: string;
   fileName?: string;
   stageRef?: React.RefObject<Stage>;
+  textRef?: React.RefObject<Text>;
+  trRef?: React.RefObject<Transformer>;
 }
 
 interface PickedProps {
@@ -17,6 +20,8 @@ interface CanvasProps {
   cardText?: string | null;
   imageSrc?: string | null;
   stageRef?: React.RefObject<Stage>;
+  textRef?: React.RefObject<Text>;
+  trRef?: React.RefObject<Transformer>;
   xPos: number;
   yPos: number;
   scale: number | undefined;
@@ -59,6 +64,7 @@ interface TextFieldProps{
   dispatch: React.Dispatch<Action>;
   selectedId: string | null;
   text?: string | null;
+  textRef?: React.RefObject<Text>;
 }
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;

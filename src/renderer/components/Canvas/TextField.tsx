@@ -4,7 +4,7 @@ import Konva from 'konva';
 import { Text, Rect, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 
-const TextField = ({checkDeselect, dispatch, selectedId, text}: TextFieldProps) => {
+const TextField = ({checkDeselect, dispatch, selectedId, text, textRef}: TextFieldProps) => {
   const [rectangles, setRectangles] = useState([{
     id:crypto.randomUUID(),
     x:50,
@@ -13,6 +13,11 @@ const TextField = ({checkDeselect, dispatch, selectedId, text}: TextFieldProps) 
     height:400,
     fill:"red",
 }]);
+
+  //TODO: store this into an object or array or something so that it would not be destroyed on text card change
+  const [textValue, setTextValue] = useState<string>('');
+
+
   const id = rectangles[0].id;
   const shapeProps = rectangles[0];
 
@@ -27,8 +32,7 @@ const TextField = ({checkDeselect, dispatch, selectedId, text}: TextFieldProps) 
 
 
   const shapeRef = useRef<Konva.Rect>(null);
-    const trRef = useRef<Konva.Transformer>(null);
-    const textRef = useRef<Konva.Text>(null);
+    // const trRef = useRef<Konva.Transformer>(null);
   
     // Calculate the textarea position and dimensions
     const textareaPosition = {
@@ -39,9 +43,10 @@ const TextField = ({checkDeselect, dispatch, selectedId, text}: TextFieldProps) 
     };
 
     const isSelected = id === selectedId;
+
   
     useEffect(() => {
-      if (isSelected && trRef.current && shapeRef.current && textRef.current) {
+      if (isSelected && trRef.current && shapeRef.current && textRef?.current) {
         trRef.current.nodes([shapeRef.current]);
         trRef.current.getLayer()?.batchDraw();
       }
@@ -53,6 +58,9 @@ const TextField = ({checkDeselect, dispatch, selectedId, text}: TextFieldProps) 
         <Html>
           <textarea
             onClick={onSelect}
+            onChange={(e)=>{
+              setTextValue(e.target.value)
+            }}
             style={{
               position: 'absolute',
               left: textareaPosition.x,
@@ -110,7 +118,7 @@ const TextField = ({checkDeselect, dispatch, selectedId, text}: TextFieldProps) 
             });
   
             // Update text width to match rectangle width without scaling the font size
-            if (textRef.current) {
+            if (textRef?.current) {
               textRef.current.width(Math.max(5, node.width() - 10)); // Adjust width with padding
               textRef.current.getLayer()?.batchDraw();
             }
@@ -118,7 +126,7 @@ const TextField = ({checkDeselect, dispatch, selectedId, text}: TextFieldProps) 
         />
         {/*TODO: set visible prop dynamically, depending on whether it's render time */}
         {/*TODO: make Text's text and textarea's text same position */}
-        <Text ref={textRef} text={text ?? ''} width={textareaPosition.width} height={textareaPosition.height} fill={"green"} x={textareaPosition.x} y={textareaPosition.y} fontSize={16} lineHeight={1.5} visible={true}/>
+        <Text ref={textRef} text={textValue !== '' ? textValue : text ?? ''} width={textareaPosition.width} height={textareaPosition.height} fill={"green"} x={textareaPosition.x} y={textareaPosition.y} fontSize={16} lineHeight={1.5} visible={false}/>
         {isSelected && (
           <Transformer
             ref={trRef}

@@ -23,6 +23,8 @@ const Main = () => {
   const initialScale = image ? dimensions.width / image.naturalWidth : undefined;
 
   const stageRef = useRef(null);
+  const textRef = useRef(null);
+  const trRef = useRef(null);
 
   const cardText =
     isPickedCard &&
@@ -56,14 +58,16 @@ const Main = () => {
         handleFileChange={(event) =>
           handleFileChange(event,dispatch)
         }
-        handleSave={() =>
-          handleSave({ uri: imageSrc, fileName: fileName, stageRef: stageRef })
+        handleSave={() =>{
+          handleSave({ uri: imageSrc, fileName: fileName, stageRef: stageRef, textRef: textRef, trRef: trRef }, dispatch);
+        }
         }
         handleResetPos={()=>{handleResetPos(dispatch)}}
         handleResetScale={() => handleResetScale(dispatch, initialScale)}
         handleDelete={() => handleDelete(dispatch)}
         handlePrint={handlePrint}
       />
+      
       <section className="flex px-14 justify-between py-12 h-fit gap-20">
         <Menu
           formats={formats}
@@ -80,7 +84,7 @@ const Main = () => {
           }
           }
         />
-        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} xPos={position.xPos} yPos={position.yPos} scale={scale} image={image} dimensions={dimensions} dispatch={dispatch} initialScale={initialScale} isSelected={isSelected} selectedId={selectedId}/>      
+        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} textRef={textRef} trRef={trRef} xPos={position.xPos} yPos={position.yPos} scale={scale} image={image} dimensions={dimensions} dispatch={dispatch} initialScale={initialScale} isSelected={isSelected} selectedId={selectedId}/>      
       </section>
     </main>
   );

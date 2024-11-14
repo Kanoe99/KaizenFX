@@ -4,15 +4,13 @@ import { useEffect } from 'react';
 
 import { CanvasProps, DimensionsProps } from '../../interfaces/ui';
 import {TextField} from './TextField';
+import { Transformer } from 'react-konva';
+
 
 const Canvas: React.FC<CanvasProps> = (props) => {
-  const { cardText, imageSrc, stageRef, xPos, yPos, scale, image, dimensions, dispatch, initialScale, isSelected, selectedId } = props;
+  const { cardText, imageSrc, stageRef, xPos, yPos, scale, image, dimensions, dispatch, initialScale, isSelected, selectedId, textRef, trRef } = props;
 
-  const imageId = crypto.randomUUID();
-
-  const textRef = useRef<any>(null);
-  const trRef = useRef<any>(null);
-  
+  const imageId = crypto.randomUUID(); 
 
   //TODO: useContext to avoid prop drilling
 
@@ -22,12 +20,12 @@ const Canvas: React.FC<CanvasProps> = (props) => {
       dispatch({type: 'set_selectedId', selectedId: null})
     }
   };
-
+  
   useEffect(() => {
-    if (isSelected) {
-      // we need to attach transformer manually
-      trRef.current.nodes([textRef.current]);
-      trRef.current.getLayer().batchDraw();
+    if (isSelected && textRef?.current && trRef?.current) {
+      // Cast trRef.current as Transformer to ensure TypeScript recognizes the nodes method
+      (trRef.current as Transformer).nodes([textRef.current]);
+      trRef.current.getLayer()?.batchDraw();
     }
   }, [isSelected]);
 
@@ -87,7 +85,7 @@ const Canvas: React.FC<CanvasProps> = (props) => {
             }
           }}
         />
-      <TextField text={cardText} checkDeselect={checkDeselect} dispatch={dispatch} selectedId={selectedId}/>
+      <TextField textRef={textRef} text={cardText} checkDeselect={checkDeselect} dispatch={dispatch} selectedId={selectedId}/>
       </Layer>
     </Stage>
   );
