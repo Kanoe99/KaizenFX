@@ -2,6 +2,7 @@ import type { Stage } from 'konva/lib/Stage';
 import React, {ButtonHTMLAttributes} from 'react';
 import { Action } from '../utils/reducer';
 import { Text } from 'konva/lib/shapes/Text';
+import { Transformer } from 'konva/lib/shapes/Transformer';
 
 interface DownloadProps {
   uri?: string;
@@ -65,6 +66,7 @@ interface TextFieldProps{
   selectedId: string | null;
   text?: string | null;
   textRef?: React.RefObject<Text>;
+  trRef?: React.RefObject<Transformer>;
 }
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;

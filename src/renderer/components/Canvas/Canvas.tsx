@@ -20,11 +20,11 @@ const Canvas: React.FC<CanvasProps> = (props) => {
       dispatch({type: 'set_selectedId', selectedId: null})
     }
   };
-  
+
   useEffect(() => {
     if (isSelected && textRef?.current && trRef?.current) {
       // Cast trRef.current as Transformer to ensure TypeScript recognizes the nodes method
-      (trRef.current as Transformer).nodes([textRef.current]);
+      trRef.current.nodes([textRef.current]);
       trRef.current.getLayer()?.batchDraw();
     }
   }, [isSelected]);

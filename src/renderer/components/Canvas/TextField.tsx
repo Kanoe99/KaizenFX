@@ -4,7 +4,7 @@ import Konva from 'konva';
 import { Text, Rect, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 
-const TextField = ({checkDeselect, dispatch, selectedId, text, textRef}: TextFieldProps) => {
+const TextField = ({checkDeselect, dispatch, selectedId, text, textRef, trRef}: TextFieldProps) => {
   const [rectangles, setRectangles] = useState([{
     id:crypto.randomUUID(),
     x:50,
@@ -46,7 +46,7 @@ const TextField = ({checkDeselect, dispatch, selectedId, text, textRef}: TextFie
 
   
     useEffect(() => {
-      if (isSelected && trRef.current && shapeRef.current && textRef?.current) {
+      if (isSelected && trRef && trRef.current && shapeRef.current && textRef?.current) {
         trRef.current.nodes([shapeRef.current]);
         trRef.current.getLayer()?.batchDraw();
       }
@@ -127,8 +127,8 @@ const TextField = ({checkDeselect, dispatch, selectedId, text, textRef}: TextFie
         {/*TODO: set visible prop dynamically, depending on whether it's render time */}
         {/*TODO: make Text's text and textarea's text same position */}
         <Text ref={textRef} text={textValue !== '' ? textValue : text ?? ''} width={textareaPosition.width} height={textareaPosition.height} fill={"green"} x={textareaPosition.x} y={textareaPosition.y} fontSize={16} lineHeight={1.5} visible={false}/>
-        {isSelected && (
           <Transformer
+            visible={true}
             ref={trRef}
             flipEnabled={false}
             rotateEnabled={false}
@@ -139,7 +139,7 @@ const TextField = ({checkDeselect, dispatch, selectedId, text, textRef}: TextFie
               return newBox;
             }}
           />
-        )}
+        
       </div>
     );
 };
