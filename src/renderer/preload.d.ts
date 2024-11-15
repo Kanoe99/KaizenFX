@@ -12,6 +12,13 @@ declare global {
         get: (key: string) => any;
         set: (key: string, val: any) => void;
       };
+      window:{
+        minimize: () => void;
+        maximize: () => void;
+        close: () => void;
+        restore: () => void;
+        isMaximized: () => Promise<boolean>;
+      }
     };
   }
 }

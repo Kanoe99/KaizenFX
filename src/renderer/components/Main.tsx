@@ -13,6 +13,7 @@ import {
 import { Canvas } from '../components/Canvas/Canvas';
 import { initialState, reducer } from '../utils/reducer';
 import { ElectronStore } from '../utils/electron-store';
+import { TitleBar } from './ui/TitleBar';
 
 const Main = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -54,6 +55,7 @@ const Main = () => {
 
   return (
     <main className="h-screen overflow-auto">
+       <TitleBar/>
        <Header
         handleFileChange={(event) =>
           handleFileChange(event,dispatch)

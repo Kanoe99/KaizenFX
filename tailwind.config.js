@@ -21,5 +21,29 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }) {
+      addUtilities(
+        {
+          '.draggable-region': {
+            '-webkit-app-region': 'drag',
+            '-webkit-user-select': 'none',
+          },
+          '.non-draggable': {
+            '-webkit-app-region': 'no-drag',
+          },
+          '.user-select-none': {
+            'user-select': 'none',
+          },
+          '.user-select-text': {
+            'user-select': 'text',
+          },
+          '.user-select-all': {
+            'user-select': 'all',
+          },
+        },
+        ['responsive', 'hover']
+      );
+    },
+  ],
 };

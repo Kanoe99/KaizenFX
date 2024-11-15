@@ -48,6 +48,7 @@ class AppUpdater {
   }
 }
 
+
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.on('ipc-example', async (event, arg) => {
@@ -103,9 +104,8 @@ const createWindow = async () => {
   };
 
   mainWindow = new BrowserWindow({
+    titleBarStyle: 'hidden',
     show: false,
-    width: 1024,
-    height: 728,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged
@@ -113,6 +113,43 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
   });
+
+  mainWindow.maximize();
+
+  ipcMain.handle('window-is-maximized', () => {
+    return mainWindow?.isMaximized() || false;
+  });
+
+  ipcMain.on('window-minimize', () => {
+    if (mainWindow) {
+      mainWindow.minimize();
+    }
+  });
+  ipcMain.on('window-maximize', () => {
+    if (mainWindow) {
+      mainWindow.maximize();
+    }
+  });
+  ipcMain.on('window-close', () => {
+    if (mainWindow) {
+      mainWindow.close();
+    }
+  });
+
+  ipcMain.on('window-restore', () => {
+    if (mainWindow) {
+      mainWindow.restore();
+    }
+  });
+
+  mainWindow.on('maximize', () => {
+    mainWindow?.webContents.send('window-maximized', true);
+  });
+  
+  mainWindow.on('unmaximize', () => {
+    mainWindow?.webContents.send('window-maximized', false);
+  });
+
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
@@ -126,6 +163,7 @@ const createWindow = async () => {
       mainWindow.show();
     }
   });
+  console.log(mainWindow.isMaximized() ? 'mainWindow is maximized' : 'mainWindow is not maximized');
 
   mainWindow.on('closed', () => {
     mainWindow = null;

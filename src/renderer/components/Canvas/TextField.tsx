@@ -13,7 +13,6 @@ const TextField = ({checkDeselect, dispatch, selectedId, text, textRef, trRef}: 
     height:400,
 }]);
 
-  //TODO: store this into an object or array or something so that it would not be destroyed on text card change
   const [textValue, setTextValue] = useState<string>('');
 
 
@@ -45,8 +44,6 @@ const TextField = ({checkDeselect, dispatch, selectedId, text, textRef, trRef}: 
 
   
     useEffect(() => {
-      //TODO: DONE??  attach transformer even if image is not set
-
       if (isSelected && trRef && trRef.current && shapeRef.current && textRef?.current) {
         //attaching transformer
         trRef.current.nodes([shapeRef.current]);
@@ -126,8 +123,6 @@ const TextField = ({checkDeselect, dispatch, selectedId, text, textRef, trRef}: 
             }
           }}
         />
-        {/*TODO: set visible prop dynamically, depending on whether it's render time */}
-        {/*TODO: make Text's text and textarea's text same position */}
         <Text ref={textRef} text={textValue !== '' ? textValue : text ?? ''} width={textareaPosition.width} height={textareaPosition.height} fill={"white"} x={textareaPosition.x} y={textareaPosition.y} fontSize={16} lineHeight={1.5} visible={false}/>
           <Transformer
             visible={true}

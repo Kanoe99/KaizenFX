@@ -12,6 +12,13 @@ interface DownloadProps {
   trRef: React.RefObject<Transformer>;
 }
 
+interface TileProps {
+  type: string;
+  isPicked: boolean;
+  handleClick: () => void;
+  styles?: string;
+}
+
 interface PickedProps {
   isPickedItem: string | null;
   item: string;
@@ -98,4 +105,4 @@ interface PositionProps{
   yPos: number
 }
 
-export { DownloadProps, PickedProps, CanvasProps, DimensionsProps, ElectronProps, MenuProps, RectangleProps, TextFieldProps, ButtonProps, FrameProps, HeaderProps, PictureProps, PositionProps };
+export { DownloadProps, PickedProps, CanvasProps, DimensionsProps, ElectronProps, MenuProps, RectangleProps, TextFieldProps, ButtonProps, FrameProps, HeaderProps, PictureProps, PositionProps, TileProps };

@@ -29,8 +29,6 @@ const Canvas: React.FC<CanvasProps> = (props) => {
     }
   }, [isSelected]);
 
-  //TODO: make Text's text on change of textarea to be changed as well
-
   const stageKey = `${imageSrc}-${xPos}-${yPos}-${cardText}-${trRef}`;
 
   return (
