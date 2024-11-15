@@ -1,5 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import "../../style.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWindowMinimize, faWindowRestore, faWindowMaximize, faXmark, faExpand } from '@fortawesome/free-solid-svg-icons';
 
 interface TitleButtonProps {
   children: ReactNode;
@@ -8,10 +10,10 @@ interface TitleButtonProps {
   onClick: () => void;
 }
 
-const TitleButton = ({ children, className, id, onClick }: TitleButtonProps) => {
+const TitleButton = ({id, children, className, onClick }: TitleButtonProps) => {
   return (
     <button
-      className={`hover:bg-gray-300 w-20 non-draggable user-select-none cursor-default ${className}`}
+      className={`hover:bg-white/40 transition p-1 duration-300 w-14 non-draggable user-select-none cursor-default grid place-items-center ${className}`}
       onClick={onClick}
     >
       {children}
@@ -61,21 +63,23 @@ const TitleBar = () => {
   console.log(isMaximized ? 'window is max' : 'win is min');
 
   return (
-    <div className="flex justify-end bg-green-500 draggable-region">
-      <TitleButton id="min" onClick={handleMin}>
-        -
+    <div className="flex justify-end draggable-region bg-gradient-to-r from-purple-500 from-80% to-purple-600 to-90%">
+      <TitleButton id="min" onClick={handleMin}> 
+        <FontAwesomeIcon icon={faWindowMinimize} className='w-4 h-4 text-white'/>
       </TitleButton>
       {isMaximized ? (
         <TitleButton id="max" onClick={handleRestore}>
-          [dock]
+          <FontAwesomeIcon icon={faWindowRestore} />
+          {/* <FontAwesomeIcon icon={faWindowRestore} className='w-5 h-5 text-blue-500'/> */}
         </TitleButton>
       ) : (
         <TitleButton id="max" onClick={handleMax}>
-          [max]
+          <FontAwesomeIcon icon={faExpand} />
+          {/* <FontAwesomeIcon icon={faWindowMaximize} className='w-5 h-5 text-green-500'/> */}
         </TitleButton>
       )}
-      <TitleButton id="close" onClick={handleClose} className={"hover:bg-red-500"}>
-        x
+      <TitleButton id="close" onClick={handleClose} className={"hover:!bg-red-500"}>
+        <FontAwesomeIcon icon={faXmark} className="w-5 h-5" />
       </TitleButton>
     </div>
   );
