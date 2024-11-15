@@ -31,14 +31,14 @@ const Canvas: React.FC<CanvasProps> = (props) => {
 
   //TODO: make Text's text on change of textarea to be changed as well
 
-  const stageKey = `${imageSrc}-${xPos}-${yPos}-${cardText}`;
+  const stageKey = `${imageSrc}-${xPos}-${yPos}-${cardText}-${trRef}`;
 
   return (
     <Stage
       key={stageKey}
       width={dimensions.width}
       height={dimensions.height}
-      className="bg-green-300 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-8"
+      className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 border-8"
       ref={stageRef}
     >
       <Layer>
@@ -85,7 +85,7 @@ const Canvas: React.FC<CanvasProps> = (props) => {
             }
           }}
         />
-      <TextField textRef={textRef} text={cardText} checkDeselect={checkDeselect} dispatch={dispatch} selectedId={selectedId}/>
+      <TextField textRef={textRef} trRef={trRef} text={cardText} checkDeselect={checkDeselect} dispatch={dispatch} selectedId={selectedId}/>
       </Layer>
     </Stage>
   );

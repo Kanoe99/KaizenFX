@@ -5,11 +5,11 @@ import { Text } from 'konva/lib/shapes/Text';
 import { Transformer } from 'konva/lib/shapes/Transformer';
 
 interface DownloadProps {
-  uri?: string;
-  fileName?: string;
-  stageRef?: React.RefObject<Stage>;
-  textRef?: React.RefObject<Text>;
-  trRef?: React.RefObject<Transformer>;
+  uri: string | undefined;
+  fileName: string | undefined;
+  stageRef: React.RefObject<Stage>;
+  textRef: React.RefObject<Text>;
+  trRef: React.RefObject<Transformer>;
 }
 
 interface PickedProps {
@@ -18,16 +18,16 @@ interface PickedProps {
 }
 
 interface CanvasProps {
-  cardText?: string | null;
-  imageSrc?: string | null;
-  stageRef?: React.RefObject<Stage>;
-  textRef?: React.RefObject<Text>;
-  trRef?: React.RefObject<Transformer>;
+  cardText: string | null;
+  imageSrc: string | null | undefined;
+  stageRef: React.RefObject<Stage>;
+  textRef: React.RefObject<Text>;
+  trRef: React.RefObject<Transformer>;
   xPos: number;
   yPos: number;
   scale: number | undefined;
   dimensions: DimensionsProps;
-  image?: HTMLImageElement;
+  image: HTMLImageElement | undefined;
   dispatch: React.Dispatch<Action>;
   initialScale: number | undefined;
   isSelected: boolean;
@@ -64,9 +64,9 @@ interface TextFieldProps{
   checkDeselect: (e:any) => void;
   dispatch: React.Dispatch<Action>;
   selectedId: string | null;
-  text?: string | null;
-  textRef?: React.RefObject<Text>;
-  trRef?: React.RefObject<Transformer>;
+  text: string | null;
+  textRef: React.RefObject<Text>;
+  trRef: React.RefObject<Transformer>;
 }
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -87,7 +87,7 @@ interface HeaderProps {
 }
 interface PictureProps {
   imageSrc: string | null;
-  card?: string | null;
+  card: string | null;
   dispatch: React.Dispatch<Action>;
   position: PositionProps
   isDragging: boolean;

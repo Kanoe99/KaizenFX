@@ -30,12 +30,13 @@ const handleFileChange = (
   event.target.value = '';
 };
 
-const handleSave = ({ fileName, stageRef, textRef }: DownloadProps, dispatch: React.Dispatch<Action>) => {
+const handleSave = ({ fileName, stageRef, textRef, trRef }: DownloadProps, dispatch: React.Dispatch<Action>) => {
   dispatch({type: 'set_selectedId', selectedId: null});
 
-  if (stageRef?.current && textRef?.current) {
-    textRef?.current.visible(true);
-    stageRef.current.draw();
+  if (stageRef.current && textRef.current && trRef.current) {
+    textRef.current.visible(true);
+    trRef.current.visible(false);
+    stageRef.current.batchDraw();
 
     let link = document.createElement('a');
     link.download = fileName ?? crypto.randomUUID();
@@ -44,8 +45,9 @@ const handleSave = ({ fileName, stageRef, textRef }: DownloadProps, dispatch: Re
     link.click();
     document.body.removeChild(link);
     
-    textRef?.current.visible(false);
-    stageRef.current.draw();
+    textRef.current.visible(false);
+    trRef.current.visible(true);
+    stageRef.current.batchDraw();
   }
 };
 
