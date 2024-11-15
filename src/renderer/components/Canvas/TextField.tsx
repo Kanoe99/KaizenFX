@@ -52,6 +52,9 @@ const TextField = ({checkDeselect, dispatch, selectedId, text, textRef, trRef}: 
     }, [isSelected]);
   
   
+
+    //TODO: change wrapping div into Konva's Group component
+
     return (
       <div key={id}>
         <Html>
