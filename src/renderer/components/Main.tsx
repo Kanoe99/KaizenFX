@@ -13,7 +13,7 @@ import {
 import { Canvas } from '../components/Canvas/Canvas';
 import { initialState, reducer } from '../utils/reducer';
 import { ElectronStore } from '../utils/electron-store';
-import { TitleBar } from './ui/TitleBar';
+import { TitleBar } from './ui/TitleBar/TitleBar';
 
 const Main = () => {
   const [state, dispatch] = useReducer(reducer, initialState);

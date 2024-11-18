@@ -18,7 +18,8 @@ declare global {
         close: () => void;
         restore: () => void;
         isMaximized: () => Promise<boolean>;
-      }
+        getIconPath: () => void;
+      };
     };
   }
 }

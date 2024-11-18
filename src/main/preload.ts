@@ -37,7 +37,8 @@ const electronHandler = {
     close: () => ipcRenderer.send('window-close'),
     restore: () => ipcRenderer.send('window-restore'),
     isMaximized: async () => await ipcRenderer.invoke('window-is-maximized'),
-  }
+    getIconPath: () => ipcRenderer.invoke('get-icon-path'),
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
