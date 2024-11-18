@@ -43,9 +43,13 @@ const TitleBar = () => {
     setIsMaximized(false);
   };
 
+  const imgSrc = 'http://localhost:8080/icon.png';
+
+
   return (
     <div className="flex draggable-region bg-gradient-to-r from-purple-500 from-80% to-purple-600 to-90%">
-        <img src={``} alt="Logo" />
+      <img src={imgSrc} alt="Logo" className='h-[2rem] px-2 py-1'/>
+      <h1 className='grid place-items-center font-bold'>Редактор Открыток</h1>
       <DefaultButtons handleClose={handleClose} handleMax={handleMax} handleMin={handleMin} handleRestore={handleRestore} isMaximized={isMaximized} />
     </div>
   );
