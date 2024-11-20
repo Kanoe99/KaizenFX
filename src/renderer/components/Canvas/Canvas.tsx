@@ -76,9 +76,9 @@ const Canvas: React.FC<CanvasProps> = (props) => {
           onWheel={(e) => {
             e.evt.preventDefault();
             
-            if (e.evt.ctrlKey ) {
+            if (e.evt.ctrlKey && initialScale ) {
               const scaleAmount = e.evt.deltaY > 0 ? 0.95 : 1.05;
-              const value = Math.max(0.1, (scale ?? initialScale ?? 1) * scaleAmount);
+              const value = Math.max(0.1, (scale ?? initialScale) * scaleAmount);
               dispatch({type: 'set_scale', scale: value});           
             }
           }}

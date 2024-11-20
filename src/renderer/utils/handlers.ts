@@ -54,7 +54,7 @@ const handleSave = ({ fileName, stageRef, textRef, trRef }: DownloadProps, dispa
 const handleDelete = (
   dispatch: React.Dispatch<Action>
 ) => {
-  dispatch({type: 'set_imageSrc', imageSrc: undefined})
+  dispatch({type: 'set_imageSrc', imageSrc: undefined});
 };
 
 const handlePrint = () => {

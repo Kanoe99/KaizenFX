@@ -105,4 +105,19 @@ interface PositionProps{
   yPos: number
 }
 
-export { DownloadProps, PickedProps, CanvasProps, DimensionsProps, ElectronProps, MenuProps, RectangleProps, TextFieldProps, ButtonProps, FrameProps, HeaderProps, PictureProps, PositionProps, TileProps };
+interface TitleBarProps{
+  formats: ElectronProps[];
+  cards: ElectronProps[];
+  handleIsPickedFormat: (item: string) => void;
+  handleIsPickedCard: (item: string) => void;
+  isPickedCard: string | null;
+  isPickedFormat: string | null;
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSave: () => void;
+  handleDelete: () => void;
+  handlePrint: () => void;
+  handleResetPos: () => void;
+  handleResetScale: () => void;
+}
+
+export { DownloadProps, PickedProps, CanvasProps, DimensionsProps, ElectronProps, MenuProps, RectangleProps, TextFieldProps, ButtonProps, FrameProps, HeaderProps, PictureProps, PositionProps, TileProps, TitleBarProps };

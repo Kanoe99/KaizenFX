@@ -22,6 +22,7 @@ interface State{
     isSelected: boolean;
     selectedId: string | null;
     isDragging: boolean;
+    initialScale: number | undefined;
 }
 
 export type Action =
@@ -75,6 +76,10 @@ export type Action =
 | {
     type: 'set_isDragging';
     isDragging: boolean;
+}
+|{
+    type: 'set_initialScale';
+    initialScale: number | undefined;
 };
 
 
@@ -101,6 +106,7 @@ const initialState: State = {
     isSelected: false,
     selectedId: null,
     isDragging: false,
+    initialScale: undefined,
 };
 
 function reducer(state: State, action: Action){
@@ -178,6 +184,11 @@ function reducer(state: State, action: Action){
             return{
                 ...state,
                 isDragging: action.isDragging
+            }
+        case 'set_initialScale':
+            return{
+                ...state,
+                initialScale: action.initialScale
             }
         default:
             return state;

@@ -4,7 +4,7 @@ import { Header } from './ui/Header';
 import {
   handleIsPickedItem,
   handleFileChange,
-  handleSave, 
+  handleSave,
   handleDelete,
   handlePrint,
   handleResetPos,
@@ -18,8 +18,8 @@ import { TitleBar } from './ui/TitleBar/TitleBar';
 const Main = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const {cards, formats} = ElectronStore;
-  const {dimensions, image, isPickedCard, isPickedFormat, imageSrc, fileName, scale, position, isSelected, selectedId, isDragging} = state;
+  const { cards, formats } = ElectronStore;
+  const { dimensions, image, isPickedCard, isPickedFormat, imageSrc, fileName, scale, position, isSelected, selectedId } = state;
 
   const initialScale = image ? dimensions.width / image.naturalWidth : undefined;
 
@@ -33,60 +33,103 @@ const Main = () => {
       (card: { key: string; value: string }) => card.key === isPickedCard,
     )[0].value;
 
-  
-  useEffect(()=>{
+  useEffect(() => {
     handleResetPos(dispatch);
-    
-    
-    if(imageSrc === undefined){
-      dispatch({type: 'changed_image', image: undefined})
+
+    if (imageSrc === undefined) {
+      dispatch({ type: 'changed_image', image: undefined });
       return;
     }
-    
+
     const img = new window.Image();
-    
+
     img.src = imageSrc;
     img.onload = () => {
-        dispatch({type: 'changed_image', image: img})
+      const calculatedScale = dimensions.width / img.naturalWidth;
+
+      dispatch({ type: 'changed_image', image: img });
+      dispatch({ type: 'set_initialScale', initialScale: calculatedScale }); // Set initial scale
+      dispatch({ type: 'set_scale', scale: calculatedScale });
     };
-    
-  },[imageSrc]);
-  
+  }, [imageSrc, dimensions.width]);
 
   return (
     <main className="h-screen overflow-auto">
-       <TitleBar/>
-       <Header
+      <TitleBar
         handleFileChange={(event) =>
-          handleFileChange(event,dispatch)
+          handleFileChange(event, dispatch)
         }
-        handleSave={() =>{
-          handleSave({ uri: imageSrc, fileName: fileName, stageRef: stageRef, textRef: textRef, trRef: trRef }, dispatch);
+        handleSave={() => {
+          handleSave({ uri: imageSrc, fileName, stageRef, textRef, trRef }, dispatch);
+        }}
+        handleResetPos={() => handleResetPos(dispatch)}
+        handleResetScale={() => handleResetScale(dispatch, initialScale)}
+        handleDelete={() => handleDelete(dispatch)}
+        handlePrint={handlePrint}
+        formats={formats}
+        cards={cards}
+        isPickedCard={isPickedCard}
+        isPickedFormat={isPickedFormat}
+        handleIsPickedFormat={(item) => {
+          dispatch({
+            type: 'set_isPickedFormat',
+            isPickedFormat: handleIsPickedItem({ isPickedItem: isPickedFormat, item }),
+          });
+        }}
+        handleIsPickedCard={(item) => {
+          dispatch({
+            type: 'set_isPickedCard',
+            isPickedCard: handleIsPickedItem({ isPickedItem: isPickedCard, item }),
+          });
+        }}
+      />
+      <Header
+        handleFileChange={(event) =>
+          handleFileChange(event, dispatch)
         }
-        }
-        handleResetPos={()=>{handleResetPos(dispatch)}}
+        handleSave={() => {
+          handleSave({ uri: imageSrc, fileName, stageRef, textRef, trRef }, dispatch);
+        }}
+        handleResetPos={() => handleResetPos(dispatch)}
         handleResetScale={() => handleResetScale(dispatch, initialScale)}
         handleDelete={() => handleDelete(dispatch)}
         handlePrint={handlePrint}
       />
-      
       <section className="flex px-14 justify-between py-12 h-fit gap-20">
         <Menu
           formats={formats}
           cards={cards}
           isPickedCard={isPickedCard}
           isPickedFormat={isPickedFormat}
-          handleIsPickedFormat={(item) =>
-
-            dispatch({type: 'set_isPickedFormat', isPickedFormat: handleIsPickedItem({ isPickedItem: isPickedFormat, item: item })})
-          }
-          handleIsPickedCard={(item) =>
-          {
-            dispatch({type: 'set_isPickedCard', isPickedCard: handleIsPickedItem({ isPickedItem: isPickedFormat, item: item })})
-          }
-          }
+          handleIsPickedFormat={(item) => {
+            dispatch({
+              type: 'set_isPickedFormat',
+              isPickedFormat: handleIsPickedItem({ isPickedItem: isPickedFormat, item }),
+            });
+          }}
+          handleIsPickedCard={(item) => {
+            dispatch({
+              type: 'set_isPickedCard',
+              isPickedCard: handleIsPickedItem({ isPickedItem: isPickedCard, item }),
+            });
+          }}
         />
-        <Canvas cardText={cardText} imageSrc={imageSrc} stageRef={stageRef} textRef={textRef} trRef={trRef} xPos={position.xPos} yPos={position.yPos} scale={scale} image={image} dimensions={dimensions} dispatch={dispatch} initialScale={initialScale} isSelected={isSelected} selectedId={selectedId}/>      
+        <Canvas
+          cardText={cardText}
+          imageSrc={imageSrc}
+          stageRef={stageRef}
+          textRef={textRef}
+          trRef={trRef}
+          xPos={position.xPos}
+          yPos={position.yPos}
+          scale={scale}
+          image={image}
+          dimensions={dimensions}
+          dispatch={dispatch}
+          initialScale={initialScale}
+          isSelected={isSelected}
+          selectedId={selectedId}
+        />
       </section>
     </main>
   );
